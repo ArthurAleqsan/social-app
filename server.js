@@ -1,6 +1,8 @@
 const express = require('express');
 const port = process.env.PORT || 5000;
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+
 // Initing App
 const app = express();
 
@@ -21,6 +23,11 @@ mongoose
 app.get('/',(req,res) => {
     res.send('Inside Home route');
 });
+
+// App use body-parser midleware
+app.use(bodyParser.urlencoded({extended : false}));
+app.use(bodyParser.json());
+
 // App use routes
 app.use('/api/users',users);
 app.use('/api/posts',posts);
