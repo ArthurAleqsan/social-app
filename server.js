@@ -2,6 +2,7 @@ const express = require('express');
 const port = process.env.PORT || 5000;
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const passport = require('passport');
 
 // Initing App
 const app = express();
@@ -20,9 +21,11 @@ mongoose
     .then(() => console.log('DB is connected'))
     .catch((err) => console.log(err));
 
-app.get('/',(req,res) => {
-    res.send('Inside Home route');
-});
+// Passport Midleware
+app.use(passport.initialize());
+
+// Passport config
+require('./config/passport')(passport);
 
 // App use body-parser midleware
 app.use(bodyParser.urlencoded({extended : false}));
