@@ -9,10 +9,22 @@ const passport = require('passport');
 // Load Users modele 
 const Users = require('../../models/Users');
 
+// Load Input Validation
+const validateRegisterInput = require('../../validation/register');
+const validateLoginInput = require('../../validation/login');
+
 // @route  POST api/users/register
 // @desc   Registration users route
 // @access Public
 router.post('/register', (req, res) => {
+    const { errors, isValid } = validateRegisterInput(req.body);
+
+    // Check Validation
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+
+
     const avatar = gravatar.url(req.body.email , {
         s: '200',
         r: 'pg',
@@ -47,6 +59,8 @@ router.post('/register', (req, res) => {
 // @desc   Login users route / JWT token
 // @access Public
 router.post('/login', (req, res) => {
+    const { errors, isValid } = validateLoginInput(req.body);
+
     const email = req.body.email;
     const password = req.body.password;
 
