@@ -19,7 +19,7 @@ const validateLoginInput = require('../../validation/login');
 router.post('/register', (req, res) => {
     const { errors, isValid } = validateRegisterInput(req.body);
 
-    // Check Validation
+    // Check Validation 
     if (!isValid) {
       return res.status(400).json(errors);
     }
@@ -32,8 +32,10 @@ router.post('/register', (req, res) => {
     });
     Users.findOne({email : req.body.email})
         .then(user =>{
+            // const errors = {}
             if(user) {
-                return res.status(400).json({email : 'Email is already exist'});
+                errors.email = 'Email is already exist';
+                return res.status(400).json(errors.email);
             } else{
                 const newUser = new Users({
                     name : req.body.name,
@@ -67,7 +69,8 @@ router.post('/login', (req, res) => {
     Users.findOne({email})
          .then(user => {
              if(!user) {
-                 return res.status(404).json({email : 'User not found'})
+                 errors.email = 'User not found';
+                 return res.status(404).json(errors.email)
              }
 
              bcrypt.compare(password, user.password)
