@@ -62,6 +62,11 @@ router.post('/register', (req, res) => {
 router.post('/login', (req, res) => {
     const { errors, isValid } = validateLoginInput(req.body);
 
+      // Check Validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
     const email = req.body.email;
     const password = req.body.password;
 
@@ -69,7 +74,7 @@ router.post('/login', (req, res) => {
          .then(user => {
              if(!user) {
                  errors.email = 'User not found';
-                 return res.status(404).json(errors.email)
+                 return res.status(404).json(errors)
              }
 
              bcrypt.compare(password, user.password)
@@ -83,7 +88,8 @@ router.post('/login', (req, res) => {
                             })
                         })
                     } else {
-                        return res.status(400).json({password : 'Password is incorect'});
+                      errors.password = 'Password incorrect';
+                      return res.status(400).json(errors);
                     }
                 })
          })
