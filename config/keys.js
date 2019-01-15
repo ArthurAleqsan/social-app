@@ -1,4 +1,5 @@
-module.exports = {
-    dbURI : 'mongodb://Admin:aptgtp245235@ds013405.mlab.com:13405/social-app',
-    secretOrKey : 'secretKey'
-} 
+if (process.env.NODE_ENV === 'production') {
+    module.exports = require('./keys_prod');
+  } else {
+    module.exports = require('./keys_dev');
+  }
