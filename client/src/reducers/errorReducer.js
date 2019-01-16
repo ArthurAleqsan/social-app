@@ -1,4 +1,4 @@
-import { GET_ERRORS } from '../actions/types'
+import { GET_ERRORS } from '../actions/types';
 
 const initialState = {};
 
@@ -11,3 +11,4 @@ export default (state = initialState, action) => {
         return state;
     }
 };
+
