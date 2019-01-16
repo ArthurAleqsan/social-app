@@ -8,7 +8,8 @@ import {
 // Get current profile
 export const getCurrentProfile = () => dispatch => {
     dispatch(setProfileLoading());
-    axios.get('/api/profile')
+    axios
+    .get('/api/profile')
     .then(res => dispatch({
         type : GET_PROFILE,
         payload : res.data
